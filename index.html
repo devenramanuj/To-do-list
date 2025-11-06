@@ -29,7 +29,6 @@
             --border: #E2E8F0;
             --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
             --gradient: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
-            --glass: rgba(255, 255, 255, 0.8);
         }
 
         body {
@@ -111,6 +110,58 @@
             display: flex;
             align-items: center;
             gap: 8px;
+        }
+
+        /* Copyright Section */
+        .copyright-section {
+            background: var(--surface);
+            padding: 15px 20px;
+            border-top: 1px solid var(--border);
+            text-align: center;
+        }
+
+        .copyright-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .copyright-text {
+            font-size: 14px;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .copyright-text i {
+            color: var(--primary);
+        }
+
+        .developer-info {
+            font-size: 14px;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .developer-info i {
+            color: var(--secondary);
+        }
+
+        .contact-info {
+            font-size: 14px;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .contact-info i {
+            color: var(--accent);
         }
 
         /* Daily Inspiration Section */
@@ -367,7 +418,7 @@
 
         /* Tasks Container */
         .tasks-container {
-            padding: 0 20px 25px;
+            padding: 0 20px;
             flex: 1;
         }
 
@@ -389,6 +440,7 @@
             display: flex;
             flex-direction: column;
             gap: 15px;
+            margin-bottom: 20px;
         }
 
         /* Task Item */
@@ -758,6 +810,12 @@
                 height: 44px;
             }
             
+            .copyright-content {
+                flex-direction: column;
+                gap: 10px;
+                text-align: center;
+            }
+            
             .inspiration-section,
             .input-section,
             .stats {
@@ -782,7 +840,7 @@
             }
             
             .tasks-container {
-                padding: 0 15px 20px;
+                padding: 0 15px;
             }
             
             .task-item {
@@ -916,6 +974,24 @@
                     <i class="fas fa-check-double"></i> 
                     પૂર્ણ કામ કાઢો
                 </button>
+            </div>
+        </div>
+
+        <!-- Copyright Section -->
+        <div class="copyright-section">
+            <div class="copyright-content">
+                <div class="copyright-text">
+                    <i class="far fa-copyright"></i>
+                    <span>૨૦૨૪ આજનું કાર્ય. બધા હક્કો સુરક્ષિત.</span>
+                </div>
+                <div class="developer-info">
+                    <i class="fas fa-code"></i>
+                    <span>વિકસિત: દેવેન્દ્ર રામાનુજ</span>
+                </div>
+                <div class="contact-info">
+                    <i class="fas fa-phone"></i>
+                    <span>મો: ૯૨૭૬૫૦૫૦૩૫</span>
+                </div>
             </div>
         </div>
     </div>
