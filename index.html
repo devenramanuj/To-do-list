@@ -1,0 +1,1294 @@
+<!DOCTYPE html>
+<html lang="gu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>આજનું કાર્ય</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+
+        :root {
+            --primary: #2563EB;
+            --primary-light: #3B82F6;
+            --secondary: #06D6A0;
+            --accent: #F59E0B;
+            --danger: #EF4444;
+            --success: #10B981;
+            --background: #FFFFFF;
+            --surface: #F8FAFC;
+            --card: #FFFFFF;
+            --text-primary: #1E293B;
+            --text-secondary: #475569;
+            --text-muted: #64748B;
+            --border: #E2E8F0;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --gradient: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            --glass: rgba(255, 255, 255, 0.8);
+        }
+
+        body {
+            background: var(--background);
+            color: var(--text-primary);
+            min-height: 100vh;
+            padding: 0;
+            background-image: 
+                radial-gradient(at 80% 20%, rgba(37, 99, 235, 0.05) 0%, transparent 50%),
+                radial-gradient(at 20% 80%, rgba(6, 214, 160, 0.05) 0%, transparent 50%);
+        }
+
+        .container {
+            max-width: 100%;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header Styles */
+        .header {
+            background: var(--gradient);
+            color: white;
+            padding: 25px 20px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .app-title {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 8px;
+        }
+
+        .app-icon {
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--shadow);
+            backdrop-filter: blur(10px);
+        }
+
+        .app-icon i {
+            font-size: 24px;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            font-weight: 700;
+            color: white;
+        }
+
+        .header p {
+            font-size: 16px;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 10px;
+        }
+
+        .date-display {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.8);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Daily Inspiration Section */
+        .inspiration-section {
+            background: var(--card);
+            margin: 20px;
+            padding: 25px;
+            border-radius: 20px;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .inspiration-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--gradient);
+        }
+
+        .inspiration-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 15px;
+        }
+
+        .inspiration-header i {
+            font-size: 22px;
+            color: var(--primary);
+        }
+
+        .inspiration-header h3 {
+            font-size: 18px;
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .thought-text {
+            font-size: 17px;
+            line-height: 1.7;
+            color: var(--text-secondary);
+            font-style: italic;
+            text-align: center;
+            margin-bottom: 18px;
+            padding: 0 15px;
+            position: relative;
+        }
+
+        .thought-text::before,
+        .thought-text::after {
+            content: '"';
+            font-size: 32px;
+            color: var(--primary);
+            opacity: 0.5;
+        }
+
+        .thought-author {
+            text-align: center;
+            font-size: 15px;
+            color: var(--secondary);
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .thought-author::before {
+            content: '';
+            width: 20px;
+            height: 1px;
+            background: var(--secondary);
+            opacity: 0.5;
+        }
+
+        .refresh-thought {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            color: var(--text-secondary);
+        }
+
+        .refresh-thought:hover {
+            background: var(--primary);
+            color: white;
+            transform: rotate(90deg);
+            border-color: var(--primary);
+        }
+
+        /* Input Section */
+        .input-section {
+            background: var(--card);
+            margin: 0 20px 20px;
+            padding: 25px;
+            border-radius: 20px;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow);
+        }
+
+        .task-input-container {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        #taskInput {
+            flex: 1;
+            padding: 18px 20px;
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            font-size: 16px;
+            outline: none;
+            background: var(--surface);
+            color: var(--text-primary);
+            transition: all 0.3s;
+        }
+
+        #taskInput:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+            transform: translateY(-2px);
+        }
+
+        #taskInput::placeholder {
+            color: var(--text-muted);
+        }
+
+        /* Priority Dropdown */
+        .priority-dropdown {
+            position: relative;
+            min-width: 180px;
+        }
+
+        .priority-select {
+            width: 100%;
+            padding: 18px 20px;
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            font-size: 16px;
+            background: var(--surface);
+            color: var(--text-primary);
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23475569'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 16px center;
+            background-size: 20px;
+            padding-right: 50px;
+        }
+
+        .priority-select:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+            outline: none;
+        }
+
+        #addBtn {
+            background: var(--gradient);
+            color: white;
+            border: none;
+            border-radius: 14px;
+            padding: 18px 24px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            min-width: 60px;
+            font-weight: 600;
+        }
+
+        #addBtn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(37, 99, 235, 0.4);
+        }
+
+        /* Options Section */
+        .task-options {
+            display: flex;
+            gap: 12px;
+            overflow-x: auto;
+            padding-bottom: 10px;
+        }
+
+        .option-btn {
+            padding: 12px 20px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            background: var(--surface);
+            cursor: pointer;
+            transition: all 0.3s;
+            white-space: nowrap;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .option-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+        }
+
+        .option-btn i {
+            font-size: 16px;
+        }
+
+        /* Reminder Section */
+        .reminder-section {
+            margin-top: 20px;
+            display: none;
+            background: var(--surface);
+            padding: 20px;
+            border-radius: 14px;
+            border: 1px solid var(--border);
+        }
+
+        .reminder-inputs {
+            display: flex;
+            gap: 12px;
+        }
+
+        .reminder-inputs input {
+            flex: 1;
+            padding: 14px;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            font-size: 14px;
+            background: var(--card);
+            color: var(--text-primary);
+        }
+
+        /* Tasks Container */
+        .tasks-container {
+            padding: 0 20px 25px;
+            flex: 1;
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .section-title i {
+            color: var(--primary);
+        }
+
+        .task-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        /* Task Item */
+        .task-item {
+            background: var(--card);
+            border-radius: 16px;
+            padding: 22px;
+            box-shadow: var(--shadow);
+            transition: all 0.3s;
+            animation: fadeIn 0.5s;
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: flex-start;
+            gap: 18px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .task-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: var(--primary);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .task-item:hover::before {
+            opacity: 1;
+        }
+
+        .task-item.important {
+            border-color: rgba(245, 158, 11, 0.3);
+        }
+
+        .task-item.important::before {
+            background: var(--accent);
+            opacity: 1;
+        }
+
+        .task-item.urgent {
+            border-color: rgba(239, 68, 68, 0.3);
+        }
+
+        .task-item.urgent::before {
+            background: var(--danger);
+            opacity: 1;
+        }
+
+        .task-item.completed {
+            opacity: 0.6;
+            background: var(--surface);
+        }
+
+        .task-checkbox {
+            width: 26px;
+            height: 26px;
+            border-radius: 8px;
+            border: 2px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            flex-shrink: 0;
+            margin-top: 2px;
+            background: var(--surface);
+        }
+
+        .task-checkbox.checked {
+            background: var(--success);
+            border-color: var(--success);
+            color: white;
+        }
+
+        .task-content {
+            flex: 1;
+        }
+
+        .task-text {
+            font-size: 17px;
+            line-height: 1.6;
+            word-break: break-word;
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        .task-item.completed .task-text {
+            text-decoration: line-through;
+            color: var(--text-muted);
+        }
+
+        .task-meta {
+            display: flex;
+            gap: 12px;
+            margin-top: 12px;
+            flex-wrap: wrap;
+        }
+
+        .task-tag {
+            font-size: 13px;
+            padding: 6px 12px;
+            border-radius: 10px;
+            background: var(--surface);
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-weight: 500;
+            border: 1px solid var(--border);
+        }
+
+        .task-reminder {
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--accent);
+            border: 1px solid rgba(245, 158, 11, 0.2);
+        }
+
+        .priority-tag.normal {
+            background: rgba(37, 99, 235, 0.1);
+            color: var(--primary);
+            border: 1px solid rgba(37, 99, 235, 0.2);
+        }
+
+        .priority-tag.important {
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--accent);
+            border: 1px solid rgba(245, 158, 11, 0.2);
+        }
+
+        .priority-tag.urgent {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--danger);
+            border: 1px solid rgba(239, 68, 68, 0.2);
+        }
+
+        .task-actions {
+            display: flex;
+            gap: 8px;
+            flex-shrink: 0;
+        }
+
+        .action-btn {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s;
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+        }
+
+        .action-btn:hover {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        .delete-btn:hover {
+            background: var(--danger);
+            border-color: var(--danger);
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 60px 30px;
+            color: var(--text-muted);
+            background: var(--surface);
+            border-radius: 20px;
+            border: 2px dashed var(--border);
+        }
+
+        .empty-state i {
+            font-size: 70px;
+            margin-bottom: 20px;
+            opacity: 0.5;
+        }
+
+        .empty-state p {
+            margin-top: 15px;
+            font-size: 17px;
+            color: var(--text-muted);
+        }
+
+        /* Stats Section */
+        .stats {
+            padding: 25px;
+            background: var(--card);
+            margin: 20px;
+            border-radius: 20px;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .progress-info {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            flex: 1;
+        }
+
+        .progress-text {
+            font-size: 15px;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .progress-bar {
+            height: 10px;
+            background: var(--surface);
+            border-radius: 6px;
+            overflow: hidden;
+        }
+
+        .progress {
+            height: 100%;
+            background: var(--gradient);
+            border-radius: 6px;
+            transition: width 0.5s ease-in-out;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 12px;
+        }
+
+        .secondary-btn {
+            background: transparent;
+            border: 1px solid var(--danger);
+            cursor: pointer;
+            font-size: 14px;
+            color: var(--danger);
+            padding: 12px 18px;
+            border-radius: 10px;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 500;
+        }
+
+        .secondary-btn:hover {
+            background: var(--danger);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        /* Notification */
+        .notification {
+            position: fixed;
+            top: 25px;
+            right: 25px;
+            background: var(--card);
+            padding: 20px 25px;
+            border-radius: 16px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            z-index: 1000;
+            transform: translateX(150%);
+            transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            border: 1px solid var(--border);
+            max-width: 400px;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        .notification i {
+            font-size: 24px;
+            color: var(--primary);
+        }
+
+        .notification-content {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+        }
+
+        .notification-title {
+            font-weight: 700;
+            font-size: 16px;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+        }
+
+        .notification-text {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { 
+                opacity: 0; 
+                transform: translateY(20px) scale(0.95); 
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0) scale(1); 
+            }
+        }
+
+        @keyframes thoughtChange {
+            0% { 
+                opacity: 0; 
+                transform: translateY(-15px) rotateX(45deg);
+            }
+            100% { 
+                opacity: 1; 
+                transform: translateY(0) rotateX(0);
+            }
+        }
+
+        .thought-change {
+            animation: thoughtChange 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        /* Scrollbar Styling */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--surface);
+            border-radius: 3px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 3px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary-light);
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .header {
+                padding: 20px 15px;
+            }
+            
+            .header h1 {
+                font-size: 24px;
+            }
+            
+            .app-icon {
+                width: 44px;
+                height: 44px;
+            }
+            
+            .inspiration-section,
+            .input-section,
+            .stats {
+                margin: 15px;
+                padding: 20px;
+            }
+            
+            .task-input-container {
+                flex-direction: column;
+            }
+            
+            .priority-dropdown {
+                min-width: 100%;
+            }
+            
+            #addBtn {
+                width: 100%;
+            }
+            
+            .reminder-inputs {
+                flex-direction: column;
+            }
+            
+            .tasks-container {
+                padding: 0 15px 20px;
+            }
+            
+            .task-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+                padding: 20px;
+            }
+            
+            .task-actions {
+                align-self: stretch;
+                justify-content: flex-end;
+            }
+            
+            .stats {
+                flex-direction: column;
+                gap: 20px;
+                align-items: stretch;
+            }
+            
+            .action-buttons {
+                justify-content: center;
+            }
+            
+            .notification {
+                right: 15px;
+                left: 15px;
+                max-width: none;
+                transform: translateY(-150%);
+            }
+            
+            .notification.show {
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="app-title">
+                <div class="app-icon">
+                    <i class="fas fa-tasks"></i>
+                </div>
+                <div>
+                    <h1>આજનું કાર્ય</h1>
+                    <p>તમારા દૈનિક કાર્યોને વ્યવસ્થિત રાખો</p>
+                    <div class="date-display">
+                        <i class="fas fa-calendar"></i>
+                        <span id="currentDate"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- આજનો સુવિચાર સેક્શન -->
+        <div class="inspiration-section">
+            <button class="refresh-thought" id="refreshThought">
+                <i class="fas fa-sync-alt"></i>
+            </button>
+            <div class="inspiration-header">
+                <i class="fas fa-lightbulb"></i>
+                <h3>આજનો સુવિચાર</h3>
+            </div>
+            <div class="thought-text" id="thoughtText">
+                જીવનમાં સફળતા પ્રાપ્ત કરવા માટે નાની નાની શરૂઆત કરો, પણ નિયમિત રહો.
+            </div>
+            <div class="thought-author" id="thoughtAuthor">સ્વામી વિવેકાનંદ</div>
+        </div>
+        
+        <div class="input-section">
+            <div class="task-input-container">
+                <input type="text" id="taskInput" placeholder="નવું કામ લખો...">
+                
+                <div class="priority-dropdown">
+                    <select class="priority-select" id="prioritySelect">
+                        <option value="normal">સામાન્ય</option>
+                        <option value="important">મહત્વનું</option>
+                        <option value="urgent">અતિ મહત્વપૂર્ણ</option>
+                    </select>
+                </div>
+                
+                <button id="addBtn">
+                    <i class="fas fa-plus"></i>
+                    ઉમેરો
+                </button>
+            </div>
+            
+            <div class="task-options">
+                <div class="option-btn" id="reminderToggle">
+                    <i class="fas fa-bell"></i>
+                    રિમાઇન્ડર
+                </div>
+            </div>
+            
+            <div class="reminder-section" id="reminderSection">
+                <div class="reminder-inputs">
+                    <input type="date" id="reminderDate">
+                    <input type="time" id="reminderTime">
+                </div>
+            </div>
+        </div>
+        
+        <div class="tasks-container">
+            <div class="section-title">
+                <i class="fas fa-list-check"></i>
+                મારા કાર્યો
+                <span style="margin-left: auto; font-size: 14px; color: var(--text-muted);" id="taskCount">0 કામ</span>
+            </div>
+            
+            <div class="task-list" id="tasksList">
+                <div class="empty-state">
+                    <i class="fas fa-clipboard-list"></i>
+                    <p>કોઈ કામ ઉમેરવામાં આવ્યું નથી</p>
+                    <p style="font-size: 14px; margin-top: 8px;">ઉપરનું બોક્સ ઉપયોગ કરીને પહેલું કામ ઉમેરો</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="stats">
+            <div class="progress-info">
+                <div class="progress-text">
+                    પૂર્ણ કાર્ય: <span id="completedTasks">0</span> / <span id="totalTasks">0</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress" id="progressBar" style="width: 0%"></div>
+                </div>
+            </div>
+            <div class="action-buttons">
+                <button class="secondary-btn" id="clearCompleted">
+                    <i class="fas fa-check-double"></i> 
+                    પૂર્ણ કામ કાઢો
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="notification" id="notification">
+        <i class="fas fa-bell" id="notificationIcon"></i>
+        <div class="notification-content">
+            <div class="notification-title" id="notificationTitle">રિમાઇન્ડર!</div>
+            <div class="notification-text" id="notificationText"></div>
+        </div>
+    </div>
+
+    <script>
+        // આજના સુવિચારોની લિસ્ટ
+        const dailyThoughts = [
+            {
+                text: "જીવનમાં સફળતા પ્રાપ્ત કરવા માટે નાની નાની શરૂઆત કરો, પણ નિયમિત રહો.",
+                author: "સ્વામી વિવેકાનંદ"
+            },
+            {
+                text: "આપણું ભવિષ્ય આપણા વર્તમાન પર નિર્ભર છે, તેથી વર્તમાનને સારી રીતે જીવો.",
+                author: "મહાત્મા ગાંધી"
+            },
+            {
+                text: "કંઈ પણ પ્રાપ્ત કરવા માટે પહેલા સપનું જોઈએ, પછી મહેનત કરીને તેને સાકાર કરીએ.",
+                author: "એ.પી.જે. અબ્દુલ કલામ"
+            },
+            {
+                text: "જીવન એ સફર છે, મંજિલ નહીં. દરેક પગલાનો આનંદ લો.",
+                author: "ગુજરાતી કહેવત"
+            },
+            {
+                text: "મહેનત એ સફળતાની ચાવી છે, કોઈ પણ ક્ષેત્રમાં સફળતા મહેનત વિના મળતી નથી.",
+                author: "ચાણક્ય"
+            }
+        ];
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // DOM Elements
+            const taskInput = document.getElementById('taskInput');
+            const prioritySelect = document.getElementById('prioritySelect');
+            const addBtn = document.getElementById('addBtn');
+            const tasksList = document.getElementById('tasksList');
+            const totalTasksSpan = document.getElementById('totalTasks');
+            const completedTasksSpan = document.getElementById('completedTasks');
+            const progressBar = document.getElementById('progressBar');
+            const clearCompletedBtn = document.getElementById('clearCompleted');
+            const currentDateElement = document.getElementById('currentDate');
+            const reminderToggle = document.getElementById('reminderToggle');
+            const reminderSection = document.getElementById('reminderSection');
+            const reminderDate = document.getElementById('reminderDate');
+            const reminderTime = document.getElementById('reminderTime');
+            const notification = document.getElementById('notification');
+            const notificationTitle = document.getElementById('notificationTitle');
+            const notificationText = document.getElementById('notificationText');
+            const notificationIcon = document.getElementById('notificationIcon');
+            const thoughtText = document.getElementById('thoughtText');
+            const thoughtAuthor = document.getElementById('thoughtAuthor');
+            const refreshThoughtBtn = document.getElementById('refreshThought');
+            const taskCount = document.getElementById('taskCount');
+            
+            // Set current date
+            const now = new Date();
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            currentDateElement.textContent = now.toLocaleDateString('gu-IN', options);
+            
+            // Set default reminder date/time to tomorrow
+            const tomorrow = new Date();
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            reminderDate.valueAsDate = tomorrow;
+            reminderTime.value = '09:00';
+            
+            // App State
+            let tasks = JSON.parse(localStorage.getItem('aajNuKaary')) || [];
+            let isReminderActive = false;
+            let reminderTimeout = null;
+            
+            // Initialize the app
+            updateStats();
+            renderTasks();
+            checkReminders();
+            showDailyThought();
+            
+            // Event Listeners
+            addBtn.addEventListener('click', addTask);
+            taskInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') addTask();
+            });
+            
+            clearCompletedBtn.addEventListener('click', clearCompletedTasks);
+            refreshThoughtBtn.addEventListener('click', showDailyThought);
+            
+            reminderToggle.addEventListener('click', function() {
+                isReminderActive = !isReminderActive;
+                this.classList.toggle('active', isReminderActive);
+                reminderSection.style.display = isReminderActive ? 'block' : 'none';
+            });
+            
+            // Functions
+            function showDailyThought() {
+                // Get a random thought
+                const randomIndex = Math.floor(Math.random() * dailyThoughts.length);
+                const thought = dailyThoughts[randomIndex];
+                
+                // Add animation class
+                thoughtText.classList.add('thought-change');
+                thoughtAuthor.classList.add('thought-change');
+                
+                setTimeout(() => {
+                    thoughtText.textContent = thought.text;
+                    thoughtAuthor.textContent = thought.author;
+                    
+                    // Remove animation class after transition
+                    setTimeout(() => {
+                        thoughtText.classList.remove('thought-change');
+                        thoughtAuthor.classList.remove('thought-change');
+                    }, 600);
+                }, 300);
+            }
+            
+            function updateStats() {
+                const totalTasks = tasks.length;
+                const completedTasks = tasks.filter(task => task.completed).length;
+                const progress = totalTasks > 0 ? (completedTasks / totalTasks) * 100 : 0;
+                
+                totalTasksSpan.textContent = totalTasks;
+                completedTasksSpan.textContent = completedTasks;
+                progressBar.style.width = `${progress}%`;
+                taskCount.textContent = `${totalTasks} કામ`;
+            }
+            
+            function saveTasks() {
+                localStorage.setItem('aajNuKaary', JSON.stringify(tasks));
+                updateStats();
+            }
+            
+            function renderTasks() {
+                if (tasks.length === 0) {
+                    tasksList.innerHTML = `
+                        <div class="empty-state">
+                            <i class="fas fa-clipboard-list"></i>
+                            <p>કોઈ કામ ઉમેરવામાં આવ્યું નથી</p>
+                            <p style="font-size: 14px; margin-top: 8px;">ઉપરનું બોક્સ ઉપયોગ કરીને પહેલું કામ ઉમેરો</p>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                // Sort tasks: incomplete first, then by priority
+                const sortedTasks = [...tasks].sort((a, b) => {
+                    if (a.completed !== b.completed) {
+                        return a.completed ? 1 : -1;
+                    }
+                    
+                    const priorityOrder = { urgent: 3, important: 2, normal: 1 };
+                    return priorityOrder[b.priority] - priorityOrder[a.priority];
+                });
+                
+                tasksList.innerHTML = '';
+                
+                sortedTasks.forEach((task, index) => {
+                    const taskElement = document.createElement('div');
+                    taskElement.className = `task-item ${task.priority} ${task.completed ? 'completed' : ''}`;
+                    
+                    let priorityIcon = '';
+                    let priorityText = '';
+                    if (task.priority === 'normal') {
+                        priorityIcon = '<i class="fas fa-circle"></i>';
+                        priorityText = 'સામાન્ય';
+                    } else if (task.priority === 'important') {
+                        priorityIcon = '<i class="fas fa-exclamation-circle"></i>';
+                        priorityText = 'મહત્વનું';
+                    } else if (task.priority === 'urgent') {
+                        priorityIcon = '<i class="fas fa-fire"></i>';
+                        priorityText = 'અતિ મહત્વપૂર્ણ';
+                    }
+                    
+                    taskElement.innerHTML = `
+                        <div class="task-checkbox ${task.completed ? 'checked' : ''}" data-index="${index}">
+                            ${task.completed ? '✓' : ''}
+                        </div>
+                        <div class="task-content">
+                            <div class="task-text">${task.text}</div>
+                            <div class="task-meta">
+                                ${task.reminder ? `
+                                    <div class="task-tag task-reminder">
+                                        <i class="fas fa-bell"></i>
+                                        ${formatReminderDate(task.reminder)}
+                                    </div>
+                                ` : ''}
+                                <div class="task-tag priority-tag ${task.priority}">
+                                    ${priorityIcon}
+                                    ${priorityText}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="task-actions">
+                            <button class="action-btn edit-btn" data-index="${index}">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="action-btn delete-btn" data-index="${index}">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    `;
+                    tasksList.appendChild(taskElement);
+                });
+                
+                // Add event listeners to task elements
+                document.querySelectorAll('.task-checkbox').forEach(checkbox => {
+                    checkbox.addEventListener('click', function() {
+                        const index = parseInt(this.getAttribute('data-index'));
+                        toggleTaskCompletion(index);
+                    });
+                });
+                
+                document.querySelectorAll('.edit-btn').forEach(button => {
+                    button.addEventListener('click', function() {
+                        const index = parseInt(this.getAttribute('data-index'));
+                        editTask(index);
+                    });
+                });
+                
+                document.querySelectorAll('.delete-btn').forEach(button => {
+                    button.addEventListener('click', function() {
+                        const index = parseInt(this.getAttribute('data-index'));
+                        deleteTask(index);
+                    });
+                });
+            }
+            
+            function addTask() {
+                const text = taskInput.value.trim();
+                if (text === '') {
+                    showNotification('ભૂલ', 'કૃપા કરીને કામ લખો!', 'error');
+                    return;
+                }
+                
+                const priority = prioritySelect.value;
+                
+                let reminder = null;
+                if (isReminderActive && reminderDate.value && reminderTime.value) {
+                    reminder = `${reminderDate.value}T${reminderTime.value}`;
+                }
+                
+                tasks.push({
+                    id: Date.now(),
+                    text: text,
+                    priority: priority,
+                    reminder: reminder,
+                    completed: false,
+                    createdAt: new Date().toISOString()
+                });
+                
+                taskInput.value = '';
+                isReminderActive = false;
+                reminderToggle.classList.remove('active');
+                reminderSection.style.display = 'none';
+                prioritySelect.value = 'normal';
+                
+                saveTasks();
+                renderTasks();
+                scheduleReminders();
+                
+                showNotification('સફળતા', 'કામ સફળતાપૂર્વક ઉમેરવામાં આવ્યું!', 'success');
+            }
+            
+            function toggleTaskCompletion(index) {
+                tasks[index].completed = !tasks[index].completed;
+                saveTasks();
+                renderTasks();
+                
+                if (tasks[index].completed) {
+                    showNotification('શાબાશ!', 'કામ પૂર્ણ થયું!', 'success');
+                }
+            }
+            
+            function editTask(index) {
+                const newText = prompt('કામ સંપાદિત કરો:', tasks[index].text);
+                if (newText !== null && newText.trim() !== '') {
+                    tasks[index].text = newText.trim();
+                    saveTasks();
+                    renderTasks();
+                    showNotification('સફળતા', 'કામ સફળતાપૂર્વક સંપાદિત થયું!', 'success');
+                }
+            }
+            
+            function deleteTask(index) {
+                if (confirm('શું તમે ખરેખર આ કામ કાઢી નાખવા માંગો છો?')) {
+                    tasks.splice(index, 1);
+                    saveTasks();
+                    renderTasks();
+                    showNotification('સફળતા', 'કામ સફળતાપૂર્વક કાઢી નાખવામાં આવ્યું!', 'success');
+                }
+            }
+            
+            function clearCompletedTasks() {
+                const completedCount = tasks.filter(task => task.completed).length;
+                if (completedCount === 0) {
+                    showNotification('માહિતી', 'કોઈ પૂર્ણ કામ નથી!', 'info');
+                    return;
+                }
+                
+                if (confirm(`શું તમે ખરેખર ${completedCount} પૂર્ણ કામ કાઢી નાખવા માંગો છો?`)) {
+                    tasks = tasks.filter(task => !task.completed);
+                    saveTasks();
+                    renderTasks();
+                    showNotification('સફળતા', 'બધા પૂર્ણ કામ સફળતાપૂર્વક કાઢી નાખવામાં આવ્યા!', 'success');
+                }
+            }
+            
+            function formatReminderDate(reminderString) {
+                const date = new Date(reminderString);
+                return date.toLocaleString('gu-IN', {
+                    day: 'numeric',
+                    month: 'short',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+            }
+            
+            function checkReminders() {
+                const now = new Date();
+                
+                tasks.forEach(task => {
+                    if (task.reminder && !task.completed) {
+                        const reminderTime = new Date(task.reminder);
+                        const timeDiff = reminderTime - now;
+                        
+                        // If reminder time is within the next minute
+                        if (timeDiff > 0 && timeDiff < 60000) {
+                            showNotification('રિમાઇન્ડર', task.text, 'reminder');
+                        }
+                    }
+                });
+            }
+            
+            function scheduleReminders() {
+                // Clear existing timeout
+                if (reminderTimeout) {
+                    clearTimeout(reminderTimeout);
+                }
+                
+                // Set timeout to check reminders every minute
+                reminderTimeout = setTimeout(() => {
+                    checkReminders();
+                    scheduleReminders();
+                }, 60000);
+            }
+            
+            function showNotification(title, text, type = 'info') {
+                notificationTitle.textContent = title;
+                notificationText.textContent = text;
+                
+                // Set icon based on type
+                let icon = 'fas fa-bell';
+                if (type === 'success') icon = 'fas fa-check-circle';
+                if (type === 'error') icon = 'fas fa-exclamation-triangle';
+                if (type === 'info') icon = 'fas fa-info-circle';
+                if (type === 'reminder') icon = 'fas fa-bell';
+                
+                notificationIcon.className = icon;
+                
+                notification.classList.add('show');
+                
+                setTimeout(() => {
+                    notification.classList.remove('show');
+                }, 4000);
+            }
+            
+            // Initialize reminder scheduling
+            scheduleReminders();
+        });
+    </script>
+</body>
+</html>
